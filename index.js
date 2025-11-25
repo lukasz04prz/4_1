@@ -109,6 +109,25 @@ app.get('/math/gcdlcm/:a/:b', (req, res) => {
   res.json(result);
 });
 
+app.get('/math/average', (req, res) => {
+  const nums = req.query.nums.split(',').map(Number);
+
+  if (nums.some(isNaN))
+    {return res.status(400).json({ error: 'Invalid input' });}
+
+  const average = nums.reduce((a, b) => a + b, 0) / nums.length;
+  const geometricMean = Math.pow(nums.reduce((a, b) => a * b, 1), 1 / nums.length)
+  const harmonicMean = nums.length / nums.reduce((a, b) => a + 1 / b, 0)
+
+  const result = {
+    average: average,
+    geometricMean: geometricMean,
+    harmonicMean: harmonicMean
+  }
+
+  res.json(result);
+});
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
