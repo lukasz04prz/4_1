@@ -42,6 +42,27 @@ app.get('/math/rectangle/:a/:b', (req, res) => {
   res.json(result);
 });
 
+//TODO3
+app.get('/math/power/:base/:exponent', (req, res) => {
+  const base = parseFloat(req.params.base);
+  const exponent = parseFloat(req.params.exponent);
+  const root = req.query.root;
+
+  if (isNaN(base) || isNaN(exponent)) {
+    return res.status(400).json({ error: 'Invalid input' });
+  }
+
+  const response = {
+    result: Math.pow(base, exponent)
+  };
+
+  if (root === 'true') {
+    response.root = Math.sqrt(base);
+  }
+
+  res.json(response);
+});
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
